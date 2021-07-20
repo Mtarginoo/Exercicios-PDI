@@ -89,7 +89,7 @@ Autores:
         cv::imshow("janela", image_trocada);                                                                          
         cv::waitKey();
       
-        return 0;
+        return 0
         }
 ```
 ## Capítulo 3 - Preeenchendo regiões
