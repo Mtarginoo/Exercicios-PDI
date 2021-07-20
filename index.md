@@ -5,4 +5,4 @@ Autores:
 - Lourival Alexandre 
 - Matheus Targino Barbosa 
 
-## Capítulo 1 - Manipulação de Imagens
+## Capítulo 1 - Manipulação de Imagens 
