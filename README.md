@@ -7,7 +7,7 @@ Autores:
 
 ## Capítulo 2 - Manipulando pixels em uma imagem
 ### Criando regiões
-
+```c++
         #include <iostream>
         #include <opencv2/opencv.hpp>
 
@@ -91,7 +91,7 @@ Autores:
       
         return 0;
         }
-
+```
 ## Capítulo 3 - Preeenchendo regiões
 
 ### O problema de rotulação
