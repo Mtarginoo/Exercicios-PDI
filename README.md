@@ -99,7 +99,7 @@ Autores:
 O problema da rotulação acontece quando existem mais de 255 objetos na imagem devido ao tipo de dado utilizado para representar os pixels da imagem. É possível melhorar o processo de rotulação apenas mudando o tipo da variável que representa cada pixel, usando um tipo que suporte um valor maior vai aumentar a possibilidade de tonalidades a serem utilizadas no labelling
 
 ### Identificando buracos
-      
+```c++
         #include <iostream>
         #include <opencv2/opencv.hpp>
 
@@ -237,11 +237,11 @@ O problema da rotulação acontece quando existem mais de 255 objetos na imagem 
             cv::waitKey();
             return 0;
         }
-
+```
 ## Capítulo 4 - Manipulação de histogramas
 
 ### Equalização de histograma
-
+```c++
         #include <iostream>
         #include <opencv2/opencv.hpp>
 
@@ -283,9 +283,9 @@ O problema da rotulação acontece quando existem mais de 255 objetos na imagem 
           }
           return 0;
         }
-
+```
 ### Detector de movimentos
-
+```c++
         #include <iostream>
         #include <opencv2/opencv.hpp>
 
@@ -392,11 +392,11 @@ O problema da rotulação acontece quando existem mais de 255 objetos na imagem 
           }
           return 0;
         }
-
+```
 ## Capítulo 5 - Filtragem no domínio espacial I
 
 ### Filtro laplaciano do gaussiano
-
+```c++
         #include <iostream>
         #include <opencv2/opencv.hpp>
 
@@ -505,7 +505,7 @@ O problema da rotulação acontece quando existem mais de 255 objetos na imagem 
           }
           return 0;
         }
-
+```
 ## Capítulo 6 - Filtragem no domínio espacial II
 
 ### Tilt-shift em imagem
