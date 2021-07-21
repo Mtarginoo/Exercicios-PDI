@@ -10,8 +10,7 @@ Os códigos abaixos foram escritos em linguagem C++, usando a biblioteca OpenCV 
 ## Capítulo 2 - Manipulando pixels em uma imagem
 ### Criando regiões
 
-![biel_png](https://github.com/Mtarginoo/mtarginoo.github.io/blob/main/biel.png "biel.png")
-
+![biel_png](/biel.png)
 
 ```c++
         #include <iostream>
