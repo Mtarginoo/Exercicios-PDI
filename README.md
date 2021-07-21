@@ -5,7 +5,7 @@ Autores:
 - Lourival Alexandre 
 - Matheus Targino Barbosa 
 
-Os códigos abaixos foram escritos em linguagem C++, usando a biblioteca OpenCV em ambiente Ubuntu 20.04. Para compilar e executar cada código basta utilizar os comandos "make <nome_do_arquivo>" e "./<nome_do_arquivo>" no mesmo diretório em que se econtra o código e o arquivo Makefile, que pode ser baixado aqui https://github.com/Mtarginoo/mtarginoo.github.io/blob/main/Makefile.  
+Os códigos abaixos foram escritos em linguagem C++, usando a biblioteca OpenCV em ambiente Ubuntu 20.04. Para compilar e executar cada código basta utilizar os comandos "make <nome_do_arquivo>" e "./<nome_do_arquivo>" no mesmo diretório em que se econtra o código e o arquivo Makefile, que pode ser baixado aqui https://github.com/Mtarginoo/mtarginoo.github.io/blob/main/Makefile - automatic!.  
 
 ## Capítulo 2 - Manipulando pixels em uma imagem
 ### Criando regiões
