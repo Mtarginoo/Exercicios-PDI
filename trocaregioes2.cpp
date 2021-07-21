@@ -31,7 +31,8 @@ int main(){
             }
         }
     }
-   
+    
+    cv::imwrite("lena-troca.jpg", image_trocada);  
     cv::imshow("janela", image_trocada);                                                                          
     cv::waitKey();
       
