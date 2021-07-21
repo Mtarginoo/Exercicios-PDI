@@ -16,8 +16,6 @@ O programa deve ler uma imagem, neste caso, a figura "biel.png" para em seguida 
 
 ![biel_png](/biel.png)
 
-GUILHERME BABACA
-
 ```c++
         #include <iostream>
         #include <opencv2/opencv.hpp>
@@ -108,7 +106,7 @@ GUILHERME BABACA
 ## Capítulo 3 - Preeenchendo regiões
 
 ### O problema de rotulação
-O problema da rotulação acontece quando existem mais de 255 objetos na imagem devido ao tipo de dado utilizado para representar os pixels da imagem. É possível melhorar o processo de rotulação apenas mudando o tipo da variável que representa cada pixel, usando um tipo que suporte um valor maior vai aumentar a possibilidade de tonalidades a serem utilizadas no labelling
+O problema da rotulação acontece quando existem mais de 255 objetos na imagem devido ao tipo de dado utilizado para representar os pixels da imagem. É possível melhorar o processo de rotulação apenas criando uma nova variável que ficará responsável pela cor de cada label, fazendo esta resetar quando chegar em 254 e usando a variavel nobjects para apenas contar o número de objetos.
 
 ### Identificando buracos
 ```c++
