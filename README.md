@@ -154,7 +154,7 @@ O problema da rotulação acontece quando existem mais de 255 objetos na imagem 
 
 ### Identificando buracos
 
-O programa a seguir tem a finalidade de apresentar o número de objetos que possuem e não possuem furos na figura abaixo.
+O programa a seguir tem a finalidade de apresentar o número de objetos que possuem e não possuem furos, além de conseguir contar uma quantidade ilimitada de objetos.
 
 ![bolhas.png](/bolhas.png)
 
@@ -174,7 +174,7 @@ A estratégia utilizada foi, incialmente realizar a remoção dos objetos que to
                             // achou um objeto
                             p.x = j;
                             p.y = i;
-                            // preenche o objeto com o contador
+                            // preenche o objeto com 0
                             cv::floodFill(image, p, 0);
                         }
                     }
@@ -182,8 +182,81 @@ A estratégia utilizada foi, incialmente realizar a remoção dos objetos que to
             }
 ```
 
+![bolhas1.png](/exercicio3-2a.png)
 
+Após a etapa de remoção de objetos da borda foi feito o labelling, adicionando a variável "colorobjects" para definir as cores dos objetos que já foram contados e a variável nobjects fazendo apenas a contagem. Ao final desta etapa temos o valor de quantos objetos existem na cena.
 
+```c++
+        nobjects = 0;
+        colorobjects = 0;
+
+        // busca objetos presentes
+        for (int i = 0; i < height; i++)
+        {
+                for (int j = 0; j < width; j++)
+                {
+                        if (image.at<uchar>(i, j) == 255)
+                        {
+                                // achou um objeto
+                                nobjects++;
+                                colorobjects++;
+                                p.x = j;
+                                p.y = i;
+                                if (colorobjects == 255)
+                                {
+                                        colorobjects = 1;
+                                }
+                                // preenche o objeto com o contador
+                                cv::floodFill(image, p, colorobjects);
+                        }
+                }
+        }   
+```
+
+![bolhas2.png](/exercicio3-2b.png)
+
+Após a etapa de labelling dos objetos foi feito o floodfill no pixel (0,0) com a cor 255 afim de auxiliar a detecção de elementos que tem ou não buracos.
+
+```c++
+        // floodfill background aplicado no pixel (0,0)
+        p.x = 0;
+        p.y = 0;
+        cv::floodFill(image, p, 255);
+```
+
+![bolhas3.png](/exercicio3-2c.png)
+
+Após a etapa de floodfill do background foi feito a contagem dos objetos com buracos e sua remoção da cena. A contagem foi feita varrendo toda a cena e verificando se existia algum pixel com a cor 0 já que o fundo agora é 255, todos os pixel com a cor 0 representam os buracos nos objetos. Quando encontrado o buraco, aplica o floodfill no pixel que esta com a cor 0 e no pixel acima, ou a sua esquerda como preferir, para fazer a remoção do mesmo.
+
+```c++
+        bolhascomburacos = 0;
+        // remove objetos com buracos
+        for (int i = 0; i < height; i++)
+        {
+                for (int j = 0; j < width; j++)
+                {
+                        if (image.at<uchar>(i, j) == 0)
+                        {
+                                // achou um buraco
+                                bolhascomburacos++;
+                                p.x = j;
+                                p.y = i;
+                                // preenche o buraco com 255
+                                cv::floodFill(image, p, 255);
+
+                                p.x = j-1;
+                                //preenche a bolha com buraco com 255
+                                cv::floodFill(image, p, 255);
+                        }
+                }
+        }
+```
+
+![bolhas4.png](/exercicio3-2d.png)
+
+Após essas etapas é só mostrar na tela o valor das variáveis "nobjects" para o número total de objetos na cena sem contar os da borda, "nobjects-bolhascomburacos" para o número de objetos sem buracos e "bolhascomburacos" para o número de objetos com buracos.
+
+O código completo está apresentado abaixo:
 
 ```c++
         #include <iostream>
@@ -270,21 +343,11 @@ A estratégia utilizada foi, incialmente realizar a remoção dos objetos que to
             cv::imwrite("exercicio3-2b.png", image);
             waitKey();
 
-            // floodfill background
-            for (int i = 0; i < height; i++)
-            {
-                for (int j = 0; j < width; j++)
-                {
-                    if (image.at<uchar>(i, j) == 0)
-                    {
-                        p.x = j;
-                        p.y = i;
-                        cv::floodFill(image, p, 255);
-                        i = height;
-                        break;
-                    }
-                }
-            }
+            // floodfill background aplicado no pixel (0,0)
+            p.x = 0;
+            p.y = 0;
+            cv::floodFill(image, p, 255);
+
 
             cv::equalizeHist(image, realce);
             cv::imshow("realce floodfill background", realce);
