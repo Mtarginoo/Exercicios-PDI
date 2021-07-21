@@ -8,10 +8,10 @@ int main(){
     cv::Mat image, image_trocada;                                                                                 // Estrutura para representação da imagem
     cv::Vec3b val;                                                                                                // Estrutura para definição das cores
 
-    image = cv::imread("biel.png", cv::IMREAD_GRAYSCALE);
-    image_trocada = cv::imread("biel.png", cv::IMREAD_GRAYSCALE);                                                //Leitura da imagem
+    image = cv::imread("lena.jpg", cv::IMREAD_GRAYSCALE);
+    image_trocada = cv::imread("lena.jpg", cv::IMREAD_GRAYSCALE);                                                //Leitura da imagem
     if(!image.data)                              
-        std::cout << "não abriu bolhas.png" << std::endl;
+        std::cout << "não abriu lena.jpg" << std::endl;
 
     cv::namedWindow("janela", cv::WINDOW_AUTOSIZE);
 
