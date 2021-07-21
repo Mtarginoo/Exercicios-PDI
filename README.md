@@ -918,7 +918,11 @@ A matriz resultante desse cálculo é usada para ponderar a imagem sem efeito, e
 
 ```
 
-![tiltshift.png](/tiltshift.png)
+A seguir é possível ver a imagem sem e com o efeito tiltshift.
+
+![tiltshift original.png](/tiltshift_original.png)
+
+![tiltshift efeito.png](/tiltshift_efeito.png)
 
 ### Tilt-shift em vídeo
 
