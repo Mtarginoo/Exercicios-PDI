@@ -16,6 +16,8 @@ O programa deve ler uma imagem, neste caso, a figura "biel.png" para em seguida 
 
 ![biel_png](/biel.png)
 
+GUILHERME BABACA
+
 ```c++
         #include <iostream>
         #include <opencv2/opencv.hpp>
