@@ -157,7 +157,7 @@ O problema da rotulação acontece quando existem mais de 255 objetos na imagem 
                             // achou um objeto
                             p.x = j;
                             p.y = i;
-                            // preenche o objeto com o contador
+                            // preenche o objeto com o background
                             cv::floodFill(image, p, 0);
                         }
                     }
