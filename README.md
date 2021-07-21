@@ -759,6 +759,14 @@ Abaixo pode ser visualizado as imagens correspondentes a cena capturada sem nenh
 
 ### Tilt-shift em imagem
 
+Utilizando o programa exemplos/addweighted.cpp como referência, implementamos um programa para a realização do tilt-shift em uma imagem colorida cujo centro, região de decaimento e posição vertical do efeito podem ser alterados por meio de sliders. Para a realização desse efeito, foram criadas duas matrizes cujos valores do eixo x foram dados pela seguinte equação:
+
+![tiltequa.png](/tiltequa.png)
+
+Em que centro indica o centro da região em foco, l1 e l2 os limites dessa região e d o quão suave será a transição entre a imagem focada e a borrada.
+
+A matriz resultante desse cálculo é usada para ponderar a imagem sem efeito, e sua inversa 1−f(x) para ponderar a imagem borrada. Em seguida, ambas são somadas, criando o efeito do tilt-shift.
+
 ```c++
         #include <iostream>
         #include <opencv2/opencv.hpp>
@@ -913,6 +921,8 @@ Abaixo pode ser visualizado as imagens correspondentes a cena capturada sem nenh
 ![tiltshift.png](/tiltshift.png)
 
 ### Tilt-shift em vídeo
+
+Ainda usando exemplos/addweighted.cpp como base, foi criado um programa que aplica o efeito de tilt-shift e stop motion em um vídeo colorido. Para isso, além de efetuar os mesmos procedimentos do exercício anterior para o tilt-shift, foi colocado um laço que descarta aceleracao frames do video antes de processar um frame, criando o efeito de stop motion.
 
 ```c++
         #include <iostream>
