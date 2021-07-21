@@ -62,6 +62,7 @@ O programa deve ler uma imagem, neste caso, a figura "biel.png" para em seguida 
 ```
 
 A figura abaixo ilustra o resultado do processamento do programa acima para os pontos P1 = (100,150) e P2 = (200, 250).
+
 ![biel_png](/biel-modificado.png)
 
 
