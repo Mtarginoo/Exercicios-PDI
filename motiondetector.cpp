@@ -49,6 +49,7 @@ int main(int argc, char** argv){
 
   while(1){
     cap >> image; 
+    cv::flip(image, image, 1);
     cv::split (image, planes); 
     cv::calcHist(&planes[0], 1, 0, cv::Mat(), histR, 1,
                  &nbins, &histrange,
