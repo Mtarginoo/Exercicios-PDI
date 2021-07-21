@@ -37,6 +37,7 @@ int main(){
         }
     }
 
+    cv::imwrite("biel-modificado.png", image);
     cv::imshow("janela", image);
     cv::waitKey();
       
