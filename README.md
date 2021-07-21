@@ -67,6 +67,40 @@ A figura abaixo ilustra o resultado do processamento do programa acima para os p
 
 
 ### Trocando regiões
+
+O programa abaixo tem por objetivo conseguir ler uma imagem e fazer uma troca nos quadrantes da mesma, de forma similar a figura abaixo:
+
+![biel_png](/biel-modificado.png)
+
+Inicialmente é realizada a leitura da imagem e criado uma cópia, para que o procedimento de troca de regiões possa ser executado na cópia, permitindo que a imagem original seja utilizada para controle das iterações 
+
+A estratégia para que tal resultado fosse obtido é apresentado no trecho de código abaixo. A ideia consiste em percorrer toda a imagem e verificar qual quadrante está sendo percorrido no momento, dependendo do quadrante atual, a troca é realizada na figura copiada.
+
+```c++
+ for(int i=0; i<image.size().height;i++){
+                for(int j=0; j<image.size().width; j++){
+                    if((i >= 0 && i < image.size().height/2) && (j >=0 && j < image.size().width/2)){
+                         image_trocada.at<uchar>(i + image.size().height/2,j + image.size().width/2) = image.at<uchar>(i,j);
+                    }
+                    else if((i >= image.size().height/2 && i < image.size().height) && (j >= image.size().width/2 && j < image.size().width)){
+                        image_trocada.at<uchar>(i - image.size().height/2, j - image.size().width/2) = image.at<uchar>(i,j);
+                    }
+                    else if((i >= image.size().height/2 &&  i < image.size().height) && (j >= 0 && j < image.size().width/2)){
+                        image_trocada.at<uchar>(i - image.size().height/2, j + image.size().width/2) = image.at<uchar>(i,j);
+                    }
+                    else{
+                        image_trocada.at<uchar>(i + image.size().height/2, j - image.size().width/2) = image.at<uchar>(i,j);
+                    }
+                }
+            }
+```
+
+A figura lena.jpg foi utilizada como entrada para o programa de troca de quadrantes. 
+
+![biel_png](/lena.jpg)
+
+O código completo está apresentado abaixo:
+
 ```c++
         #include <iostream>
         #include <opencv2/opencv.hpp>
@@ -75,39 +109,44 @@ A figura abaixo ilustra o resultado do processamento do programa acima para os p
         using namespace std;
 
         int main(){
-        cv::Mat image, image_trocada;                                                                              
-        cv::Vec3b val;                                                                                               
+            cv::Mat image, image_trocada;                                                                                 
+            cv::Vec3b val;                                                                                                
 
-        image = cv::imread("biel.png", cv::IMREAD_GRAYSCALE);
-        image_trocada = cv::imread("biel.png", cv::IMREAD_GRAYSCALE);                                               
-        if(!image.data)                              
-                std::cout << "não abriu bolhas.png" << std::endl;
+            image = cv::imread("lena.jpg", cv::IMREAD_GRAYSCALE);
+            image_trocada = cv::imread("lena.jpg", cv::IMREAD_GRAYSCALE);                                                
+            if(!image.data)                              
+                std::cout << "não abriu lena.jpg" << std::endl;
 
-        cv::namedWindow("janela", cv::WINDOW_AUTOSIZE);
+            cv::namedWindow("janela", cv::WINDOW_AUTOSIZE);
 
-        for(int i=0; i<image.size().height;i++){
+            for(int i=0; i<image.size().height;i++){
                 for(int j=0; j<image.size().width; j++){
-                        if((i >= 0 && i < image.size().height/2) && (j >=0 && j < image.size().width/2)){
-                                image_trocada.at<uchar>(i + image.size().height/2,j + image.size().width/2) = image.at<uchar>(i,j);
-                        }
-                        else if((i >= image.size().height/2 && i < image.size().height) && (j >= image.size().width/2 && j < image.size().width)){
-                                image_trocada.at<uchar>(i - image.size().height/2, j - image.size().width/2) = image.at<uchar>(i,j);
-                        }
-                        else if((i >= image.size().height/2 &&  i < image.size().height) && (j >= 0 && j < image.size().width/2)){
-                                image_trocada.at<uchar>(i - image.size().height/2, j + image.size().width/2) = image.at<uchar>(i,j);
-                        }
-                        else{
-                                image_trocada.at<uchar>(i + image.size().height/2, j - image.size().width/2) = image.at<uchar>(i,j);
-                        }
-                 }
-         }
-   
-        cv::imshow("janela", image_trocada);                                                                          
-        cv::waitKey();
-      
-        return 0
+                    if((i >= 0 && i < image.size().height/2) && (j >=0 && j < image.size().width/2)){
+                         image_trocada.at<uchar>(i + image.size().height/2,j + image.size().width/2) = image.at<uchar>(i,j);
+                    }
+                    else if((i >= image.size().height/2 && i < image.size().height) && (j >= image.size().width/2 && j < image.size().width)){
+                        image_trocada.at<uchar>(i - image.size().height/2, j - image.size().width/2) = image.at<uchar>(i,j);
+                    }
+                    else if((i >= image.size().height/2 &&  i < image.size().height) && (j >= 0 && j < image.size().width/2)){
+                        image_trocada.at<uchar>(i - image.size().height/2, j + image.size().width/2) = image.at<uchar>(i,j);
+                    }
+                    else{
+                        image_trocada.at<uchar>(i + image.size().height/2, j - image.size().width/2) = image.at<uchar>(i,j);
+                    }
+                }
+            }
+
+            cv::imshow("janela", image_trocada);                                                                          
+            cv::waitKey();
+
+            return 0;
         }
 ```
+
+A figura abaixo apresenta o resultado do processamento do programa.
+
+![biel_png](/lena-troca.jpg)
+
 ## Capítulo 3 - Preeenchendo regiões
 
 ### O problema de rotulação
@@ -157,7 +196,7 @@ O problema da rotulação acontece quando existem mais de 255 objetos na imagem 
                             // achou um objeto
                             p.x = j;
                             p.y = i;
-                            // preenche o objeto com o background
+                            // preenche o objeto com o contador
                             cv::floodFill(image, p, 0);
                         }
                     }
