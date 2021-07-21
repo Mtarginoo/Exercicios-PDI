@@ -416,6 +416,39 @@ O código completo está apresentado abaixo:
         }
 ```
 ### Detector de movimentos
+
+O programa a seguir tem a função de fazer a detecção de movimentos em uma cena capturada por um dispositivo de video em tempo real. A estratégia utilizada para a resolução do problema foi a utilização do cálculo da diferença entre os histogramas calculados a cada itereção do programa. O histograma da imagem varia de acordo com a variação das cores capturadas, seja por mudança de iluminação ou posicionamento dos objetos. Desta forma, analisar a diferença entre dois histogramas pode ser útil para o processo de detecção de movimentos.
+
+```c++
+while(1){
+            cap >> image; 
+            cv::split (image, planes); 
+            cv::calcHist(&planes[0], 1, 0, cv::Mat(), histR, 1,
+                         &nbins, &histrange,
+                         uniform, acummulate);
+            cv::calcHist(&planes[1], 1, 0, cv::Mat(), histG, 1,
+                         &nbins, &histrange,
+                         uniform, acummulate);
+            cv::calcHist(&planes[2], 1, 0, cv::Mat(), histB, 1,
+                         &nbins, &histrange,
+                         uniform, acummulate);
+
+
+            for(int i=0; i<nbins; i++){
+                dif += abs(histR.at<float>(i) - hist_anterior.at<float>(i));
+            }
+
+            if(dif > 12000){
+                cout << "Movimento detectado! - diferenca: " << dif << endl;
+            }
+```
+
+A captura do video é redirecionada para o objeto image, que por sua vez tem seus canais de cor divididos no objeto planes, onde cada índice (0, 1 e 2) armazenam cada canal de cor RGB. O cálculo da comparação do histograma é realizado apenas com o canal de cor RED, o que é o sulficente para esta aplicação. O histograma atual é percorrido e para cada barra (bin) é acumulado o valor da difernça entre o histograma atual e o histograma anterior. Caso esse valor seja maior que 12000 (valor que melhor se comportou e foi obtido experimentalmente) é considerado que houve movimentação na cena, caso contrário, é suposto que não houve movimento.
+
+O resultado do programa bem como o código fonte completo pode ser visualizado abaixo.
+
+![motionDetector.png](/motionDetector.png)
+
 ```c++
         #include <iostream>
         #include <opencv2/opencv.hpp>
