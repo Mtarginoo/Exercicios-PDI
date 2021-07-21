@@ -10,6 +10,10 @@ Os códigos abaixos foram escritos em linguagem C++, usando a biblioteca OpenCV 
 ## Capítulo 2 - Manipulando pixels em uma imagem
 ### Criando regiões
 
+O primeiro programa desenvolvido tem por objetivo solicitar ao usuário dois pontos, que correspondem as coordenadas de um retângulo e dentro deste retângulo, a imagem deverá apresentar seus pixels em negativo. 
+
+O programa deve ler uma imagem, neste caso, a figura "biel.png" para em seguida percorrer a imagem na região definida pelo usuário atribuíndo cada pixel o seu valor multiplicado por -1. A Figura abaixo ilustra a imagem utilizada neste exemplo.
+
 ![biel_png](/biel.png)
 
 ```c++
@@ -56,6 +60,7 @@ Os códigos abaixos foram escritos em linguagem C++, usando a biblioteca OpenCV 
         return 0;
        }
 ```
+
 ### Trocando regiões
 ```c++
         #include <iostream>
