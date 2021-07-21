@@ -560,6 +560,28 @@ O resultado do programa bem como o código fonte completo pode ser visualizado a
 ## Capítulo 5 - Filtragem no domínio espacial I
 
 ### Filtro laplaciano do gaussiano
+
+O programa abaixo tem a finalidade de implementar, além dos filtros pré-existentes, no código disponibilizado pelo professor o kernel Laplaciano do Gaussiano. Este kernel calcula as derivadas segundas de uma imagem, desta forma, torna zero áreas com intensidades constantes e nas áreas onde existe mudança de intensidade, a resposta do Laplaciano do Gaussiano será positiva no lado mais escuro e negativa no lado mais claro. A matriz correspondente ao kernel Laplaciano do Gaussiano está mostrada na figura abaixo.
+
+![LoG.png](/LoG.png)
+
+O kernel é armazenado na variável laplgauss em forma de um vetor.
+
+```c++
+  float laplgauss[] = {0, 0, 1, 0, 0, 0, 1, 2, 1, 0, 1, 2, 1, 0, 1, 2, -16, 2, 1, 0, 1, 2, 1, 0, 0, 0, 1, 0, 0};
+```
+
+Caso seja precionada a tecla x durante a execução do programa o filtro será aplicado na imagem capturada pela câmera.
+
+```c++
+case 'x':
+                mask = cv::Mat(5, 5, CV_32F, laplgauss);
+                break;
+```
+Abaixo pode ser visualizado as imagens correspondentes a cena capturada sem nenhum processamento e a aplicação do filtro Laplaciano do Gaussiano. Também é apresentado o código completo da implementação do programa.
+
+![lap_gauss.png](/lap_gauss.png)
+
 ```c++
         #include <iostream>
         #include <opencv2/opencv.hpp>
