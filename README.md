@@ -70,7 +70,7 @@ A figura abaixo ilustra o resultado do processamento do programa acima para os p
 
 O programa abaixo tem por objetivo conseguir ler uma imagem e fazer uma troca nos quadrantes da mesma, de forma similar a figura abaixo:
 
-![biel_png](/biel-modificado.png)
+![biel_png](/biel-troca.png)
 
 Inicialmente é realizada a leitura da imagem e criado uma cópia, para que o procedimento de troca de regiões possa ser executado na cópia, permitindo que a imagem original seja utilizada para controle das iterações 
 
