@@ -50,8 +50,9 @@ Autores:
 
         return 0;
        }
-
+```
 ### Trocando regiões
+```c++
         #include <iostream>
         #include <opencv2/opencv.hpp>
 
