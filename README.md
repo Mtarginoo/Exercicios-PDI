@@ -1,4 +1,4 @@
-# Exercicios de Processamento Digital de Imagens em OpenCV
+# Exercícios de Processamento Digital de Imagens em OpenCV
 Exercícios de programação com OpenCV realizados na disciplina DCA0445 - Processamento Digital de Imagens, componente optativo do curso de Engenharia de Computação da UFRN, ministrada pelo Prof. Dr Agostinho de Medeiros Brito Jr.
 
 Autores:
@@ -153,6 +153,38 @@ A figura abaixo apresenta o resultado do processamento do programa.
 O problema da rotulação acontece quando existem mais de 255 objetos na imagem devido ao tipo de dado utilizado para representar os pixels da imagem. É possível melhorar o processo de rotulação apenas criando uma nova variável que ficará responsável pela cor de cada label, fazendo esta resetar quando chegar em 254 e usando a variavel nobjects para apenas contar o número de objetos.
 
 ### Identificando buracos
+
+O programa a seguir tem a finalidade de apresentar o número de objetos que possuem e não possuem furos na figura abaixo.
+
+![bolhas.png](/bolhas.png)
+
+A estratégia utilizada foi, incialmente realizar a remoção dos objetos que tocam a borda da imagem, pois não é possível saber se eles possuem ou não furos, dado que parte deles está fora da visualização da cena. Foi feito uma varredura nos pixels da borda e sempre que um objeto é encontrado, é aplicado o algoritmo floodfill a partir daquele pixel, preenchendo-o com 0, deste modo, o objeto é "transformado" no fundo da imagem e removido da cena.
+
+```c++
+  // eliminando objetos da borda
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    // Se tiver em uma das bordas
+                    if (i == 0 || i == height - 1 || j == 0 || j == width - 1)
+                    {
+                        if (image.at<uchar>(i, j) == 255)
+                        {
+                            // achou um objeto
+                            p.x = j;
+                            p.y = i;
+                            // preenche o objeto com o contador
+                            cv::floodFill(image, p, 0);
+                        }
+                    }
+                }
+            }
+```
+
+
+
+
 ```c++
         #include <iostream>
         #include <opencv2/opencv.hpp>
@@ -295,6 +327,51 @@ O problema da rotulação acontece quando existem mais de 255 objetos na imagem 
 ## Capítulo 4 - Manipulação de histogramas
 
 ### Equalização de histograma
+
+O programa abaixo tem por objetivo a aquisição de uma cena a partir de uma câmera de video e realizar o cálculo do histograma equalizado em tempo real. 
+
+Os objetos image e equalized são usados, respectivamente, para armazenar a imagem capturada e a imagem processada no procedimento de equalização do histograma. O acesso a câmera é feito através do objeto cap, pelo método cap.open(0), no qual o parâmetro indica a câmera a ser requisitada para o sistema operacional (caso o computador esteja conectado a mais de um dispositivo).
+
+```c++
+int main(int argc, char** argv){
+          Mat image, equalized;           
+          int width, height;       
+          VideoCapture cap(0); 
+          vector<Mat> planes; 
+          int key;
+
+                cap.open(0);
+
+          if(!cap.isOpened()){
+            cout << "cameras indisponiveis" << endl;
+            return -1;
+          }
+
+```
+O programa roda em um loop infinito, fazendo o redirecionamento do fluxo das imagens capturadas pelo objeto cap para image. a captura é invertida pela função flip e convertida para escala de cinza pela função cvtColor. Com a função equalizeHist é feito o cálculo do histograma normalizado e em seguida é exibido em tela a imagem captura sem nenhum processamento (apenas invertida) e a imagem cujo o histograma foi equalizado.
+
+```c++
+   while(1){
+            cap >> image; 
+            flip(image, image, 1);
+            cvtColor(image, image, COLOR_BGR2GRAY); 
+            equalizeHist(image, equalized);
+
+            imshow("Imagem", image);
+            imshow("Captura equalizada", equalized);
+            key = waitKey(30);
+            if(key == 27) break;
+          }
+          return 0;
+        }
+```
+
+A figura abaixo apresenta o resultado do programa. 
+
+![histogramaEqualizado.png](/histogramaEqualizado.png)
+
+O código completo está apresentado abaixo:
+
 ```c++
         #include <iostream>
         #include <opencv2/opencv.hpp>
