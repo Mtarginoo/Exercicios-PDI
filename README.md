@@ -1247,7 +1247,13 @@ A seguir é possível ver as imagens.
 
 ### Canny - Pontilhismo
 
-descrição
+Para fazer a implementação da técnica do pontilhismo foi utilizado o programa base "pontilhismo.cpp". Onde foi feita uma modificação para usar o algoritmo de Canny para ter resultados diferentes dos padrões.
+
+Primeiro o programa realiza o pontilhismo da imagem usando o programa base pontilhismo.cpp com circulos grandes, aqui de tamanho 5.
+
+Depois é executado o algoritmo de Canny com diferentes limiares minimos pre-determinados pelo vetor abaixo, e limiares altos por 3 * limiar inferior.
+
+Abaixo é mostrado o código utilizado para realizar este experimento.
 
 ```c++
 #include <iostream>
@@ -1378,7 +1384,11 @@ A seguir é possível ver as imagens com a arte do pontilhismo com Limiar inferi
 
 ### K-means
 
-descrição
+Nesta tarefa foi realizada o algoritmo K-Means para reduzir a quantidade de cores presentes na imagem, classificando todos os pixels da imagem em 6 grupos diferentes, cada um representando uma cor. Isso foi feito escolhendo os centros do cluster de forma aleatória e em apenas uma rodada como exigido.
+
+Após separar os pixels em grupos de centros aleatórios pelo menos 10 vezes de algumas imagens, alguns resultados foram diferentes um dos outros. Isso ocorreu por que ao gerar centros aleatorios e executar o algoritmo por apenas uma rodada, centros de cluster diferentes foram obtidos e em apenas uma rodada o algoritmo nao teve chance de corrigir esses centros para se aproximar mais das aglomeraçoes de elementos.
+
+Abaixo está o código utilizado para resolução deste exercício.
 
 ```c++
 
