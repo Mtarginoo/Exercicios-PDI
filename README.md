@@ -1034,3 +1034,224 @@ Ainda usando exemplos/addweighted.cpp como base, foi criado um programa que apli
 
 ![tiltshiftvideo.png](/tiltshiftvideo.png)
 
+## Capítulo 7 - Filtragem no domínio da frequência
+
+### Filtro Homomórfico
+
+descrição
+
+```c++
+
+
+```
+
+A seguir é possível ver as imagens.
+
+![tiltshift original.png](/tiltshift_original.png)
+
+![tiltshift efeito.png](/tiltshift_efeito.png)
+
+
+## Capítulo 8 - Detecção de bordas com o algoritmo de Canny
+
+### Canny - Pontilhismo
+
+descrição
+
+```c++
+#include <iostream>
+#include "opencv2/opencv.hpp"
+#include <fstream>
+#include <iomanip>
+#include <vector>
+#include <algorithm>
+#include <numeric>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+using namespace cv;
+
+
+#define STEP 4
+#define JITTER 2
+#define RAIO 5
+
+int top_slider = 10;
+int top_slider_max = 200;
+
+char TrackbarName[50];
+
+Mat image,imgray, border,points;
+  int width, height;
+  Vec3b colors;
+  int x, y;
+  vector<int> yrange;
+  vector<int> xrange;
+
+void on_trackbar_canny(int, void*){
+
+  Canny(imgray, border, top_slider, 3*top_slider);
+  imshow("cannyborders.png", border);
+  points = Mat(height, width, CV_8UC3, Scalar(255,255,255));
+  std::random_shuffle(xrange.begin(), xrange.end());
+  for(auto i : xrange){
+    random_shuffle(yrange.begin(), yrange.end());
+    for(auto j : yrange){
+
+      if(border.at<uchar>(j,i) == 255)
+      {
+          x = i+rand()%(2*JITTER)-JITTER+1;
+          y = j+rand()%(2*JITTER)-JITTER+1;
+          colors = image.at<Vec3b>(y,x);
+          circle(points, Point(x,y),2, CV_RGB(colors[2],colors[1],colors[0]), -1, LINE_AA);
+      }
+      else{
+          x = i+rand()%(2*JITTER)-JITTER+1;
+          y = j+rand()%(2*JITTER)-JITTER+1;
+          colors = image.at<Vec3b>(x,y);
+          circle(points,
+                 cv::Point(y,x),
+                 RAIO,
+                 CV_RGB(colors[2],colors[1],colors[0]),
+                 -1,
+                 LINE_AA);
+      }
+    }
+  }
+  imshow("canny",points);
+
+}
+
+int main(int argc, char**argv){
+
+  image= imread(argv[1],IMREAD_COLOR);
+  cvtColor(image,imgray, COLOR_BGR2GRAY);
+
+  srand(time(0));
+
+  if(!image.data){
+  cout << "nao abriu" << argv[1] << endl;
+    cout << argv[0] << " imagem.jpg";
+    exit(0);
+  }
+
+  width=image.size().width;
+  height=image.size().height;
+
+  xrange.resize(height/STEP);
+  yrange.resize(width/STEP);
+
+  iota(xrange.begin(), xrange.end(), 0);
+  iota(yrange.begin(), yrange.end(), 0);
+
+  for(uint i=0; i<xrange.size(); i++){
+    xrange[i]= xrange[i]*STEP+STEP/2;
+  }
+
+  for(uint i=0; i<yrange.size(); i++){
+    yrange[i]= yrange[i]*STEP+STEP/2;
+  }
+  
+  namedWindow("canny",1);
+  
+  sprintf(TrackbarName, "Limiar Inferior:");
+
+  createTrackbar( TrackbarName, "canny",
+                &top_slider,
+                top_slider_max,
+                on_trackbar_canny );
+
+  on_trackbar_canny(top_slider, 0 );
+
+  waitKey();
+  imwrite("cannypontos.png",points);
+  return 0;
+}
+
+```
+
+A seguir é possível ver as imagens com a arte do pontilhismo com Limiar inferior=100.
+
+![pontilhismo100.png](/pontilhismo100.png)
+
+![pontilhismo100result.png](/pontilhismo100result.png)
+
+A seguir é possível ver as imagens com a arte do pontilhismo com Limiar inferior=200.
+
+![pontilhismo200.png](/pontilhismo200.png)
+
+![pontilhismo200result.png](/pontilhismo200result.png)
+
+## Capítulo 9 - Quantização vetorial com k-means
+
+### K-means
+
+descrição
+
+```c++
+
+#include <opencv2/opencv.hpp>
+#include <cstdlib>
+//#include <string>
+
+using namespace std;
+using namespace cv;
+
+int main(int argc, char** argv) {
+        int nClusters = 6;
+        Mat rotulos;
+        int nRodadas = 1;
+        Mat centros;
+
+        stringstream saida_nome;
+        string saida;
+        int cont = 0;
+
+        Mat img = imread("imagem.jpg", IMREAD_COLOR);
+        Mat samples(img.rows * img.cols, 3, CV_32F);
+
+        while (cont < 20) {
+                for (int y = 0; y < img.rows; y++) {
+                        for (int x = 0; x < img.cols; x++) {
+                                for (int z = 0; z < 3; z++) {
+                                        samples.at<float>(y + x * img.rows, z) = img.at<Vec3b>(y, x)[z];
+                                }
+                        }
+                }
+
+                kmeans(samples,
+                        nClusters,
+                        rotulos,
+                        TermCriteria(TermCriteria::MAX_ITER|TermCriteria::EPS, 10000, 0.0001),
+                        nRodadas,
+                        KMEANS_RANDOM_CENTERS,
+                        centros);
+
+                Mat rotulada(img.size(), img.type());
+                for (int y = 0; y < img.rows; y++) {
+                        for (int x = 0; x < img.cols; x++) {
+                                int indice = rotulos.at<int>(y + x * img.rows, 0);
+                                rotulada.at<Vec3b>(y, x)[0] = (uchar)centros.at<float>(indice, 0);
+                                rotulada.at<Vec3b>(y, x)[1] = (uchar)centros.at<float>(indice, 1);
+                                rotulada.at<Vec3b>(y, x)[2] = (uchar)centros.at<float>(indice, 2);
+                        }
+                }
+                saida_nome.str(""); //limpa o string stream
+                saida_nome << "resultado" << cont << ".png";
+                saida = saida_nome.str();
+
+                //imshow("clustered image 2", rotulada);
+                imwrite(saida, rotulada);
+                cont++;
+        }
+        //waitKey(0);
+}
+
+```
+
+A seguir é possível ver imagem original e a imagem após 19 iterações do metódo k-means.
+
+![imagem.jpg](/imagem.jpg)
+
+![resultado19.png](/resultado19.png)
