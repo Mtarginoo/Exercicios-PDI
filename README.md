@@ -1038,8 +1038,6 @@ Ainda usando exemplos/addweighted.cpp como base, foi criado um programa que apli
 
 ### Filtro Homomórfico
 
-descrição
-
 O programa recebe como entrada uma imagem em tons de cinza. Ao pressionar as teclas configuradas são alterados os parâmetros de iluminânica, refletância, frequência de corte e valor da constante. Inicialmente é realizada uma etapa de pré-procesamento para que seja aplicado o padding na imagem. Logo após, é inicializada a matriz responsável por guardar as componentes real e imaginária da imagem filtrada.
 
 ```c++
